@@ -75,3 +75,11 @@ The global `/session-log` and `/session-close` commands (`commands/` in this rep
 ## Index
 
 See [[Sessions/_index]] for the list of tracked projects and topics.
+
+## Obsidian (optional, but where the wikilinks come alive)
+
+This convention uses Obsidian-flavored syntax: `[[slug]]` wikilinks (in `topic:`/`feature:` frontmatter and in the index) and Obsidian callouts (`> [!tip]`, foldable `> [!info]-`).
+
+**Without Obsidian**, everything still works as plain Markdown — you can read every ficha and session note in any editor or on GitHub. What you lose: `[[slug]]` renders as literal bracketed text instead of a clickable link, there's no backlinks panel or graph view, and GitHub only renders 5 fixed alert types (`NOTE`/`TIP`/`IMPORTANT`/`WARNING`/`CAUTION`) — not the foldable `[!info]-` variant used here, which shows up as a plain blockquote instead.
+
+**With Obsidian**, open this repository's folder directly as a vault (`Obsidian → Open folder as vault`) to get all of the above. If you already keep a personal or team notes vault, you can instead nest this repo (or just its `Sessions/` folder) inside it — wikilinks only resolve within the same vault, so nesting is what gets you cross-linking with your other notes.
