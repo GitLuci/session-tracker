@@ -6,6 +6,16 @@ Session tracking for Claude Code — by project, by feature/topic, with a histor
 
 Claude Code sessions (chats) don't leave an organized trail: it's hard to know which decisions, bugs and open items came out of a given session, tie that back to a topic or project, and get back to the original chat when you need to. This gets worse across multiple projects, each with its own scattered history.
 
+## Use cases
+
+**Solo, multiple projects** (the default framing above): one person tracking several of their own projects — a `personal_tracker_path` set once, one `Sessions/<project>/<slug>/` tree per project, all in a single repo you fully control.
+
+**Team, one shared project:** a team working on the same codebase can point a `work_projects` entry at a single shared, git-hosted instance of this convention instead of (or alongside) their own personal tracker. Every teammate's `/session-log` — run from their own Claude Code sessions, on their own machine — writes into the same `Sessions/<slug>/` tree; commits and pushes accumulate it into one collective, versioned history of decisions, bugs and open items across the whole team, not just one person's.
+
+It isn't real time — it's exactly as asynchronous as git itself: someone else's session shows up once they push and you pull. What it does become, over time, is a shared project memory that's richer than any single person's notes, and it plugs into the same optional "deeper technical documentation" integration `/session-log` already does (see `commands/session-log.md`).
+
+The honest tradeoff: a single `Sessions/_index.md` edited by several people will occasionally conflict on merge — fine to resolve by hand for a small or medium team, but it's the main friction point if this scales up. Nothing about the tool itself changes between the two use cases; it's the same commands and config shape, just pointed at a repo more than one person clones.
+
 ## Installation (on another machine, or to share)
 
 This repo is self-contained. Two ways to install — pick one.
