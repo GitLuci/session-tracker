@@ -1,0 +1,10 @@
+{
+  "personal_tracker_path": "/absolute/path/to/where-you-cloned-this-repo",
+  "work_projects": [
+    {
+      "name": "Example Work Project",
+      "match": ["some-repo-folder-name", "another-repo-folder-name"],
+      "vault_path": "/absolute/path/to/that/projects/notes/root"
+    }
+  ]
+}
