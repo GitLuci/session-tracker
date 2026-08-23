@@ -70,3 +70,34 @@ If it does, this is the real point of that layer: keep it in sync with what sess
 - Bump that page's own `updated:` frontmatter to today.
 - If you're unsure which page owns a change, or the edit would be substantial/ambiguous, ask the user rather than guessing — don't silently rewrite technical docs on a guess.
 - Separately (lighter-weight, always optional): if the accumulated changes since a hosted overview artifact was last refreshed seem significant, add an open item to the feature ficha noting it should be refreshed from the updated `technical-documentation/`. Never edit the artifact itself; it's hosted content only the user publishes.
+
+## Cross-domain open-items tracker (optional, both target types)
+
+Some targets keep a single consolidated file across every ficha — one page listing everything
+genuinely open, by area/domain, instead of having to open each ficha individually. Location:
+`technical-documentation/open-items.md` if that layered structure exists (see above), otherwise
+`Sessions/open-items.md` — a sibling to `_index.md`, whichever target this is.
+
+- **Don't create this file speculatively.** Only touch it if it already exists, or the user
+  explicitly asks for one. An empty scaffold nobody asked for is clutter.
+- **Creating one for the first time** (only when asked): scan every ficha's `## Open items`
+  section across the whole target, verify each item against the current code where feasible (not
+  just trusted from the note — same discipline as the branch/PR check above), group by
+  area/domain, and write one table per area with Item/Status/Source columns. Status legend:
+  ⚪ decision/infra, not a code fix · 🟡 partial · 🔴 open bug/gap · 🔵 product/compliance call, not
+  a code bug. Link it from `_index.md`/`Home.md` and from any older per-domain tracker (e.g. a
+  bugs list or backlog snapshot) so people land on it either way.
+- **If it exists**, after finishing the ficha/session-note update this run:
+  - New cross-cutting item found this session (platform-wide visibility, not a narrow detail
+    already fully scoped inside this one ficha) → add a row with a link back to this ficha/ADR
+    for full context.
+  - An existing row sourced from this ficha turns out to already be resolved, or its root-cause
+    theory was wrong (found by actually checking code/tests, not by assumption) → correct it in
+    place rather than leaving it stale.
+  - Bump the tracker's own `updated:` frontmatter; commit alongside the other changes in the same
+    commit, don't split it out.
+- **On `/session-close`**: since closing implies the underlying work reached a resolved state,
+  sweep the tracker for rows sourced from this slug's ficha — mark resolved (or delete the row,
+  noting it briefly in a "Resolved" list at the bottom) only for items the merged PR(s)/confirmed
+  status actually cover. Don't blindly resolve every row just because the ficha's overall `status`
+  flipped to `done` — some rows may be pre-existing issues that PR never touched.

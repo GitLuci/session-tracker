@@ -78,6 +78,30 @@ Body: `## Summary`, `## Tasks completed`, `## Bugs found`, `## Open items`.
 
 **Important:** Claude Code deletes local transcripts after ~30 days by default (`cleanupPeriodDays`) — `resume` only works inside that window. Log sessions worth keeping regularly instead of counting on being able to get back to the raw transcript later.
 
+## Open items tracker (optional)
+
+Every topic ficha has its own `## Open items` — fine while there are a handful of topics, but it
+doesn't scale to "what's still open across this whole project" without opening every ficha one by
+one. For that, `/session-log`/`/session-close` can also maintain a single consolidated file,
+`Sessions/open-items.md` (or `technical-documentation/open-items.md` if a target has that deeper
+docs layer — see `commands/session-log.md`'s "Work targets only" section), with one table per
+area/domain instead of per ficha:
+
+| Item | Status | Source |
+|---|---|---|
+| Short description of the actual gap/bug | 🔴 open | [[topic-slug]] |
+
+Status legend: ⚪ decision/infra, not a code fix · 🟡 partial · 🔴 open bug/gap · 🔵
+product/compliance call, not a code bug. Each row links back to the ficha/session note with full
+context — this page is a distilled index, not a replacement for the detail underneath it.
+
+**This file is never created speculatively** — the commands only touch it if it already exists,
+or you explicitly ask for one (e.g. *"consolidate every open item across all my topics into one
+file"*). Once it exists, `/session-log` keeps it in sync with what a session finds (new
+cross-cutting items, corrected root-cause theories) and `/session-close` sweeps it when a topic's
+underlying work actually resolves something it lists. Link it from `Sessions/_index.md` so it's
+discoverable.
+
 ## How to fill it in
 
 The global `/session-log` and `/session-close` commands (`commands/` in this repo — see "Installation" above) read `~/.claude/session-tracking.json` to know where to write: if the current working directory matches one of the configured `work_projects` (a specific client engagement with its own PR-based tracking format, for example), they write there; otherwise they write here, under `Sessions/<folder-name>/`. Nothing else is automatic — run `/session-log` at the end of a session worth recording.
