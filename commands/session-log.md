@@ -26,6 +26,14 @@ Log the current chat session into a `Sessions/`-style tracking system. Where it 
 - **Routing:** normalize the current working directory path. If it contains (case-insensitive) any string from a `work_projects[].match` list, the target is that entry's `vault_path`. Otherwise the target is `personal_tracker_path`.
 - Read the target's `_index.md`/`README.md` first (if not already read this session) — it documents the frontmatter/body convention actually in use there. Treat the templates below as the default, not gospel, if the target has evolved its own variant.
 
+## Verify branch/PR state — never trust conversation memory
+
+A branch can be opened, PR'd, merged, and deleted (GitHub's default "delete branch on merge") *between two of your own turns* — faster than anything said earlier in the conversation can account for. Before writing any branch or PR reference into a ficha or session note:
+
+- Check its live state — `gh pr list --state all --search "<branch> in:head"` for an open guess, but once you have a candidate number prefer `gh pr view <number>` (the head-search can miss a PR whose branch was already deleted).
+- If a branch no longer exists locally/remotely (`git ls-remote --heads origin <branch>` comes back empty), that is **not** evidence the work was lost — it's the normal shape of "merged and cleaned up." Confirm with `git log --all --grep="from <org>/<branch>"` (matches GitHub's "Merge pull request #N from <org>/<branch>" commit message) against the repo before reporting it as abandoned, stuck, or still-pending.
+- **Every branch or PR mentioned in a ficha or session note must be a clickable link**, never plain text — the branch's GitHub page (`https://github.com/<org>/<repo>/tree/<branch>`) if no PR exists yet, the PR URL once one does. The point is that re-checking status later is "click the link," not "re-derive it from memory."
+
 ## Steps
 
 1. **Get the session id.** Look at your own environment info for the scratchpad directory path — it contains `...\claude\<project>\<session-id>\scratchpad`. Extract that UUID; it's the `session_id`. Don't guess it any other way.
@@ -44,7 +52,7 @@ Log the current chat session into a `Sessions/`-style tracking system. Where it 
    - Body (both): `## Summary` (2-4 sentences, what this session was actually about), `## Tasks completed` (concrete bullets), `## Bugs found` (bullets, or `—`), `## Open items` (checkboxes for anything left open).
    - Base this strictly on what happened in the conversation — if something is unclear, say so instead of inventing detail.
 6. **Update the ficha:** add a row to `## Session history` linking to the new session note; merge new open items into `## Open items` (dedupe, check off resolved ones); bump `updated` in frontmatter to today.
-7. **Update the index** (`Sessions/_index.md` at the target's root): update or add the row for this slug (status emoji + text, `updated`, and for a work target the PR column if known). New/reopened work goes in the main features/topics table, never in a "historical/archaeology" section reserved for pre-system reconstructions.
+7. **Update the index** (`Sessions/_index.md` at the target's root): update or add the row for this slug (status emoji + text, `updated`, and for a work target the PR column if known — verified per the rule above, not carried over from earlier in the conversation). New/reopened work goes in the main features/topics table, never in a "historical/archaeology" section reserved for pre-system reconstructions.
 8. **Commit.** Check `git rev-parse --is-inside-work-tree` in the target folder (`cd` into it first). If it's a git repo, `git add` + `git commit` the new/changed files there. Never push without being asked — the user controls pushes, same as every other repo. If it isn't a git repo, skip this and say so rather than failing silently.
 9. Tell the user which files were written/updated, whether a commit was made, and flag anything you had to guess or that needs their input.
 
