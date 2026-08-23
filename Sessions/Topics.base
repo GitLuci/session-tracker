@@ -1,0 +1,56 @@
+filters:
+  and:
+    - file.folder.contains("Sessions")
+    - or:
+        - status == "planning"
+        - status == "in-progress"
+        - status == "in-review"
+        - status == "done"
+views:
+  - type: table
+    name: All
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - status
+      - topic
+      - project
+      - updated
+      - tags
+  - type: table
+    name: In progress
+    filters: status == "in-progress"
+    order:
+      - file.name
+      - topic
+      - project
+      - updated
+  - type: table
+    name: In review
+    filters: status == "in-review"
+    order:
+      - file.name
+      - topic
+      - project
+      - updated
+  - type: table
+    name: Done
+    filters: status == "done"
+    order:
+      - file.name
+      - topic
+      - project
+      - updated
+  - type: table
+    name: By project
+    groupBy:
+      property: project
+      direction: ASC
+    order:
+      - file.name
+      - project
+      - topic
+      - status
+      - updated

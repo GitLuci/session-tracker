@@ -7,6 +7,9 @@ Session tracking for Claude Code, by project and by topic.
 
 ## 🚀 Topics
 
+> [!tip] 🔍 Interactive, filterable view
+> If you're viewing this vault in Obsidian, open **[[Topics.base|Topics.base]]** to filter/group by status or project directly in the UI (Obsidian Bases — native, no plugin required). Ships with ready-made views: All, In progress, In review, Done, By project. The table below stays the plain-Markdown source of truth `/session-log` writes to; the Base only reads the same frontmatter and presents it interactively.
+
 | Status | Project | Topic | Updated |
 | --- | --- | --- | --- |
 | — | — | _(none registered yet)_ | — |
